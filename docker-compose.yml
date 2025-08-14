@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # Frontend - React Application
+  frontend:
+    build: ./frontend
+    ports: ["3000:3000"]
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on: [api]
+    networks:
+      - ciphercanary-network
+
+  # Backend - FastAPI Application
+  api:
+    build: ./api
+    ports: ["8000:8000"]
+    environment:
+      - DATABASE_URL=postgresql://ciphercanary:ciphercanary@db:5432/ciphercanary
+      - REDIS_URL=redis://redis:6379
+      - SECRET_KEY=your-secret-key-change-in-production
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+    volumes:
+      - ./api:/app
+    depends_on: [db, redis]
+    networks:
+      - ciphercanary-network
+
+  # Database - PostgreSQL
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=ciphercanary
+      - POSTGRES_USER=ciphercanary
+      - POSTGRES_PASSWORD=ciphercanary
+    ports: ["5432:5432"]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ciphercanary-network
+
+  # Cache - Redis
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+    volumes:
+      - redis_data:/data
+    networks:
+      - ciphercanary-network
+
+  # Reverse Proxy - Nginx
+  nginx:
+    image: nginx:alpine
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on: [frontend, api]
+    networks:
+      - ciphercanary-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  ciphercanary-network:
+    driver: bridge
