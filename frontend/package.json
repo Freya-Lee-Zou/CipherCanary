@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "CipherCanary - Modern Cryptography and Security Toolkit Frontend",
   "private": true,
+  "homepage": "https://freya-lee-zou.github.io/CipherCanary",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -32,8 +33,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:prod": "REACT_APP_API_URL=https://your-backend-api.com react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
