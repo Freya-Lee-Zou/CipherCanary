@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/CipherCanary/static/css/main.dbab10ab.css",
+    "main.js": "/CipherCanary/static/js/main.357d4adf.js",
+    "index.html": "/CipherCanary/index.html",
+    "main.dbab10ab.css.map": "/CipherCanary/static/css/main.dbab10ab.css.map",
+    "main.357d4adf.js.map": "/CipherCanary/static/js/main.357d4adf.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dbab10ab.css",
+    "static/js/main.357d4adf.js"
+  ]
+}
