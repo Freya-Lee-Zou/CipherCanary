@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 function App() {
-  const [systemStatus, setSystemStatus] = useState('Online ✅');
-  const [clickCount, setClickCount] = useState(0);
-
   const handleGetStarted = () => {
     alert('🚀 Welcome to CipherCanary! This is your modern cryptography toolkit.\n\nFeatures:\n• AES-256-GCM Encryption\n• RSA-4096 Key Management\n• ChaCha20-Poly1305 Support\n• Audit Logging\n\nClick on any algorithm card to learn more!');
   };
@@ -15,15 +12,16 @@ function App() {
       'RSA-4096': 'Rivest-Shamir-Adleman asymmetric encryption with 4096-bit keys. Used for key exchange and digital signatures.',
       'Ed25519': 'Edwards-curve Digital Signature Algorithm using Curve25519. Provides fast, secure digital signatures with small key sizes.'
     };
-
+    
     alert(`🔐 ${algorithm}\n\n${descriptions[algorithm]}\n\nThis algorithm is ready for use in your CipherCanary toolkit!`);
   };
 
   const toggleSystemStatus = () => {
-    if (systemStatus.includes('Online')) {
-      setSystemStatus('Offline ❌');
+    const statusElement = document.getElementById('system-status');
+    if (statusElement.textContent.includes('Online')) {
+      statusElement.innerHTML = 'System Status: Offline ❌';
     } else {
-      setSystemStatus('Online ✅');
+      statusElement.innerHTML = 'System Status: Online ✅';
     }
   };
 
@@ -67,7 +65,7 @@ function App() {
               cursor: 'pointer',
               fontSize: '16px',
               transition: 'background-color 0.3s ease'
-            }} onMouseOver={(e) => e.target.style.backgroundColor = '#1976d2'}
+            }} onMouseOver={(e) => e.target.style.backgroundColor = '#1976d2'} 
                onMouseOut={(e) => e.target.style.backgroundColor = '#2196f3'}>
               Get Started
             </button>
@@ -94,7 +92,7 @@ function App() {
           }}>
             <h2>📊 Dashboard</h2>
             <p>Monitor your encryption operations and system status in real-time.</p>
-            <div style={{
+            <div id="system-status" style={{
               backgroundColor: '#2196f3',
               padding: '10px',
               borderRadius: '8px',
@@ -102,9 +100,9 @@ function App() {
               fontSize: '0.9rem',
               cursor: 'pointer',
               transition: 'background-color 0.3s ease'
-            }} onClick={toggleSystemStatus} onMouseOver={(e) => e.target.style.backgroundColor = '#1976d2'}
+            }} onClick={toggleSystemStatus} onMouseOver={(e) => e.target.style.backgroundColor = '#1976d2'} 
                onMouseOut={(e) => e.target.style.backgroundColor = '#2196f3'}>
-              System Status: {systemStatus}
+              System Status: Online ✅
             </div>
           </div>
         </div>
@@ -135,11 +133,11 @@ function App() {
                 border: '1px solid #444',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease'
-              }} onClick={() => handleAlgorithmClick(algo.name)}
+              }} onClick={() => handleAlgorithmClick(algo.name)} 
                  onMouseOver={(e) => {
                    e.target.style.backgroundColor = '#3a3a3a';
                    e.target.style.borderColor = '#2196f3';
-                 }}
+                 }} 
                  onMouseOut={(e) => {
                    e.target.style.backgroundColor = '#2a2a2a';
                    e.target.style.borderColor = '#444';
